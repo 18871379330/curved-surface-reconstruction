@@ -231,11 +231,6 @@ Released under the MIT License. See [LICENSE](LICENSE).
 ## 中文
 
 <p align="center">
-  <strong>用于曲面产品、软体产品和封闭实体逆向建模的工具无关 AgentSkill。</strong><br />
-  指导 AI agent 完成几何检查、主体与细节分离、重建轮廓拟合、CAD 就绪输出导出，以及验证证据报告。
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white" alt="Python 3.12+" />
   <img src="https://img.shields.io/badge/CadQuery-OCC%20BREP-2E8B57" alt="CadQuery OCC BREP" />
   <img src="https://img.shields.io/badge/SolidWorks-optional%20adapter-BB4B4B" alt="SolidWorks optional adapter" />
