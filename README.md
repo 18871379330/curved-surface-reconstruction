@@ -78,7 +78,7 @@ The images below show the kind of evidence this workflow keeps with a reconstruc
 <p align="center">
   <img src="docs/assets/readme-reconstruction-preview.svg" alt="Updated reconstruction preview" />
   <br />
-  <strong>Updated CAD reconstruction preview</strong><br />
+  <strong>CAD reconstruction preview</strong><br />
   A clearer preview of the reconstructed surface result used as the main repository introduction image.
 </p>
 
