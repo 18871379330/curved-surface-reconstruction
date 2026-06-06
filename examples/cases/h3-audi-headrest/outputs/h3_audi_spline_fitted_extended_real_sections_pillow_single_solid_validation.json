@@ -1,0 +1,14 @@
+{
+  "valid": true,
+  "volume_mm3": 5616495.035318204,
+  "face_count": 6,
+  "solid_count": 1,
+  "step_reopen_solid_count": 1,
+  "step_reopen_valid": true,
+  "outputs": {
+    "step": "headrest_h3_audi_spline_pillow_delivery\\h3_audi_spline_fitted_extended_real_sections_pillow_single_solid.step",
+    "preview_stl": "headrest_h3_audi_spline_pillow_delivery\\h3_audi_spline_fitted_extended_real_sections_pillow_single_solid_preview.stl",
+    "preview_png": "headrest_h3_audi_spline_pillow_delivery\\h3_audi_spline_fitted_extended_real_sections_pillow_single_solid_preview.png",
+    "profiles": "headrest_h3_audi_spline_pillow_delivery\\h3_audi_spline_fitted_extended_real_sections_pillow_single_solid_profiles.json"
+  }
+}

@@ -1,0 +1,174 @@
+# Curved Surface Reconstruction
+
+<p align="center">
+  <strong>Tool-agnostic reverse modeling for curved products, soft goods, and closed solids.</strong><br />
+  Turn STL, OBJ, PLY, STEP, and point samples into verified CAD-ready outputs.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white" alt="Python 3.12+" />
+  <img src="https://img.shields.io/badge/CadQuery-OCC%20BREP-2E8B57" alt="CadQuery OCC BREP" />
+  <img src="https://img.shields.io/badge/SolidWorks-optional%20adapter-BB4B4B" alt="SolidWorks optional adapter" />
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" />
+</p>
+
+---
+
+This repository provides a practical workflow for rebuilding freeform geometry into one of four output levels:
+
+- cleaned mesh for preview or print checks;
+- fitted profile data for design iteration;
+- a watertight single BREP solid;
+- a tool-native CAD deliverable with verification evidence.
+
+It is intentionally **tool-agnostic** at the core and uses adapters for CadQuery, FreeCAD, OpenCascade, and SolidWorks when needed. The focus is not just on pretty geometry, but on measurable, reproducible results.
+
+## Gallery
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="examples/cases/h3-audi-headrest/input/poduszka_zaglowkowa_audi_candidate_contact_sheet.png" alt="H3 Audi component contact sheet" />
+      <br />
+      <strong>Source component classification</strong>
+    </td>
+    <td align="center">
+      <img src="examples/cases/h3-audi-headrest/outputs/h3_audi_spline_fitted_extended_real_sections_pillow_single_solid_preview.png" alt="H3 Audi headrest final preview" />
+      <br />
+      <strong>Single-solid soft-body reconstruction</strong>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="examples/cases/m1009/outputs/M1009_curved_face_block_complete_single_solid_preview.png" alt="M1009 single-solid preview" />
+  <br />
+  <strong>Compact STEP to SolidWorks deliverable</strong>
+</p>
+
+## What This Repo Does
+
+- inspects geometry before reconstruction, instead of trusting a nice preview;
+- separates the target body from straps, seams, labels, brackets, and other accessories;
+- samples and fits ordered sections or fitted surfaces;
+- exports STEP, STL, and native CAD outputs through adapters;
+- validates watertightness, manifold state, volume, body count, and visual fit;
+- keeps the final delivery clean and explainable.
+
+## Reconstruction Pipeline
+
+```mermaid
+graph LR
+  A[STL / OBJ / PLY / STEP / point samples] --> B[Core inspection]
+  B --> C[Target-body classification]
+  C --> D[Profile / surface fitting]
+  D --> E{Adapter route}
+  E --> F[CadQuery / OCC]
+  E --> G[FreeCAD]
+  E --> H[SolidWorks]
+  F --> I[Validation report]
+  G --> I
+  H --> I
+```
+
+## Quality Levels
+
+| Level | Output | Best For |
+| --- | --- | --- |
+| Q0 | Cleaned mesh | Preview, concept checks, print checks |
+| Q1 | Fitted surface profiles | Iteration, section analysis, reverse modeling |
+| Q2 | Single BREP solid | STEP handoff, one-body deliverables |
+| Q3 | Tool-native feature model | Editable CAD features in a target tool |
+| Q4 | Verified native deliverable | Native file plus independent verification evidence |
+
+## Quick Start
+
+Install the core inspection tools:
+
+```powershell
+python -m pip install -r requirements-core.txt
+```
+
+Install the BREP/STEP route as well if you want CadQuery output:
+
+```powershell
+python -m pip install -r requirements-cadquery.txt
+```
+
+Inspect a reference mesh:
+
+```powershell
+python core/verify_geometry.py examples/cases/m1009/input/M1009_curved_face_block_reference.STL --out examples/cases/m1009/_work/geometry_report.json
+```
+
+Generate ordered profiles:
+
+```powershell
+python core/surface_profiles_from_samples.py examples/cases/m1009/input/M1009_curved_face_block_reference.STL --out examples/cases/m1009/_work/profiles.json --sections 20 --points 7
+```
+
+Build a single solid STEP:
+
+```powershell
+python adapters/cadquery/single_solid_from_profiles.py examples/cases/m1009/_work/profiles.json --step examples/cases/m1009/_work/single_solid.step --preview-stl examples/cases/m1009/_work/single_solid_preview.stl
+```
+
+Expected evidence for a successful single-solid route:
+
+```text
+VALID True
+SOLIDS 1
+```
+
+## Featured Cases
+
+### H3 Audi Headrest Cushion
+
+This case is the strongest example of the repo's main-body filtering approach. It demonstrates how to ignore straps, seam loops, and thin decorative geometry while keeping the soft cushion mass intact.
+
+- Case notes: [examples/cases/h3-audi-headrest/case.md](examples/cases/h3-audi-headrest/case.md)
+- Asset manifest: [examples/cases/h3-audi-headrest/asset-manifest.md](examples/cases/h3-audi-headrest/asset-manifest.md)
+
+### M1009 Curved Face Block
+
+This case is a cleaner single-solid route that shows the CadQuery and SolidWorks handoff flow.
+
+- Case notes: [examples/cases/m1009/asset-manifest.md](examples/cases/m1009/asset-manifest.md)
+
+## Repository Layout
+
+- `core/` - tool-independent inspection, sampling, and fitting logic.
+- `adapters/` - CadQuery, FreeCAD, OCCT, and SolidWorks back ends.
+- `docs/` - workflow, command templates, and environment matrix.
+- `examples/` - curated cases, preview outputs, and reconstruction notes.
+- `tests/` - smoke tests and validation helpers.
+- `SKILL.md` - the Copilot-facing instruction file for agent workflows.
+
+## Validation First
+
+The project treats validation as part of the deliverable:
+
+- check bbox, counts, open edges, manifold state, and volume before fitting;
+- compare source and output in consistent views;
+- keep included and excluded component lists for multi-part scenes;
+- prove the final body count or validity in the target adapter before marking the task complete.
+
+## Safety And Scope
+
+This repo is designed for user-owned or otherwise authorized geometry. If the source model is a commercial product or a third-party design and permission is unclear, confirm the rights before reproducing it in detail.
+
+The SolidWorks adapter is optional and Windows-only. Proprietary interop DLLs are not bundled in the repository.
+
+## Contributing
+
+If you add a new case, keep the story complete:
+
+1. a source asset or reference sample;
+2. a reconstruction script or command sequence;
+3. a preview image;
+4. a validation report;
+5. a short case note explaining what was learned.
+
+## License
+
+Released under the MIT License. See [LICENSE](LICENSE).

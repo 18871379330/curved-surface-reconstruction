@@ -1,0 +1,4 @@
+interface:
+  display_name: "Curved Surface Reconstruction"
+  short_description: "Rebuild curved geometry into verified solids"
+  default_prompt: "Use $curved-surface-reconstruction to rebuild this curved model into a verified solid with a validation report."
