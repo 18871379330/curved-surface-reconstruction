@@ -53,17 +53,21 @@ Use it as the agent-facing contract for:
 
 ### Gallery
 
+The figures below show the same three pieces of evidence that the skill asks an agent to preserve: component classification before fitting, final soft-body reconstruction, and compact single-solid handoff.
+
 <table>
   <tr>
     <td align="center">
       <img src="examples/cases/h3-audi-headrest/input/poduszka_zaglowkowa_audi_candidate_contact_sheet.png" alt="H3 Audi component contact sheet" />
       <br />
-      <strong>Source component classification</strong>
+      <strong>Source component classification</strong><br />
+      Shows why the source must be treated as a scene before fitting, so straps, seam loops, thin bands, and other details do not distort the main-body reconstruction.
     </td>
     <td align="center">
       <img src="examples/cases/h3-audi-headrest/outputs/h3_audi_spline_fitted_extended_real_sections_pillow_single_solid_preview.png" alt="H3 Audi headrest final preview" />
       <br />
-      <strong>Single-solid soft-body reconstruction</strong>
+      <strong>Single-solid soft-body reconstruction</strong><br />
+      Shows the retained main cushion body after accessory geometry is excluded and spline-section lofting is validated as a single solid.
     </td>
   </tr>
 </table>
@@ -71,7 +75,8 @@ Use it as the agent-facing contract for:
 <p align="center">
   <img src="examples/cases/m1009/outputs/M1009_curved_face_block_complete_single_solid_preview.png" alt="M1009 single-solid preview" />
   <br />
-  <strong>Compact STEP to SolidWorks deliverable</strong>
+  <strong>Compact STEP to SolidWorks deliverable</strong><br />
+  Demonstrates the simpler curved-face block route: core profile generation, CadQuery/OCC solid construction, STEP export, and downstream CAD handoff.
 </p>
 
 ### What This AgentSkill Does
@@ -230,6 +235,13 @@ Released under the MIT License. See [LICENSE](LICENSE).
   指导 AI agent 完成几何检查、主体与细节分离、重建轮廓拟合、CAD 就绪输出导出，以及验证证据报告。
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white" alt="Python 3.12+" />
+  <img src="https://img.shields.io/badge/CadQuery-OCC%20BREP-2E8B57" alt="CadQuery OCC BREP" />
+  <img src="https://img.shields.io/badge/SolidWorks-optional%20adapter-BB4B4B" alt="SolidWorks optional adapter" />
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" />
+</p>
+
 ### 项目概览
 
 本仓库封装的是一个用于曲面重建的 **AgentSkill**。它面向 AI 编程/CAD agent 阅读和执行，不是一个盲目的 mesh-to-solid 自动转换器。该 skill 规定 agent 何时检查、何时分割、何时拟合、选择哪条适配器路线，以及最终必须返回哪些验证证据。
@@ -262,6 +274,34 @@ SKILL.md
 - 端盖与截断处理规则；
 - 停止条件；
 - 必须返回的验证证据。
+
+### 图示展示
+
+下列图片展示了该 skill 要求 agent 保留的三类相同证据：拟合前的部件分类、最终软体主体重建，以及紧凑单实体交付。
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="examples/cases/h3-audi-headrest/input/poduszka_zaglowkowa_audi_candidate_contact_sheet.png" alt="H3 Audi 部件分类接触图" />
+      <br />
+      <strong>源部件分类</strong><br />
+      说明为什么必须先把源模型当作一个场景处理，避免绑带、缝线环、薄带和其他细节影响主体重建。
+    </td>
+    <td align="center">
+      <img src="examples/cases/h3-audi-headrest/outputs/h3_audi_spline_fitted_extended_real_sections_pillow_single_solid_preview.png" alt="H3 Audi 头枕最终预览" />
+      <br />
+      <strong>单实体软体重建</strong><br />
+      展示排除附件几何后保留下来的主垫体，并通过样条截面放样验证为单一实体。
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="examples/cases/m1009/outputs/M1009_curved_face_block_complete_single_solid_preview.png" alt="M1009 单实体预览" />
+  <br />
+  <strong>紧凑 STEP 到 SolidWorks 交付物</strong><br />
+  展示更简单的曲面块路线：核心轮廓生成、CadQuery/OCC 实体构建、STEP 导出，以及后续 CAD 交付。
+</p>
 
 ### 这个 AgentSkill 解决什么
 
