@@ -1,4 +1,9 @@
-# Curved Surface Reconstruction AgentSkill
+<h1 align="center">Curved Surface Reconstruction AgentSkill</h1>
+
+<p align="center">
+  <strong>CAD reconstruction skill for mesh-based curved surface workflows.</strong><br />
+  A structured skill package for geometry inspection, main-body selection, profile fitting, CAD export, and validation.
+</p>
 
 ## Language
 
@@ -9,11 +14,6 @@
 <a id="english"></a>
 
 ## English
-
-<p align="center">
-  <strong>An engineering-oriented AgentSkill for curved-surface reconstruction and CAD handoff.</strong><br />
-  Define a repeatable route from mesh or point-sample input to inspected profiles, CAD-ready geometry, and validation records.
-</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?logo=python&logoColor=white" alt="Python 3.12+" />
@@ -203,11 +203,11 @@ Released under the MIT License. See [LICENSE](LICENSE).
 
 <a id="中文"></a>
 
-## 中文
+<h1 align="center">曲面重建 AgentSkill</h1>
 
 <p align="center">
-  <strong>面向曲面重建与 CAD 交付的工程化 AgentSkill。</strong><br />
-  从网格或点样本输入出发，形成可追溯的几何检查、轮廓拟合、CAD 输出和验证记录。
+  <strong>用于网格曲面重建和 CAD 交付的技能规范。</strong><br />
+  覆盖源几何检查、主体筛选、轮廓拟合、CAD 输出和验证记录。
 </p>
 
 <p align="center">
