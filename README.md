@@ -12,7 +12,7 @@
 
 <p align="center">
   <strong>A practical workflow for reconstructing curved products, soft goods, and closed solids.</strong><br />
-  Inspect the source geometry, keep the intended main body, fit reconstruction profiles, export CAD-ready files, and keep validation results with the deliverable.
+  Inspect source geometry, keep the intended body, fit reconstruction profiles, export CAD-ready files, and keep validation records with the result.
 </p>
 
 <p align="center">
@@ -22,19 +22,17 @@
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" />
 </p>
 
+<p align="center">
+  <img src="docs/assets/readme-reconstruction-preview.jpg" alt="Reconstructed CAD surface preview" />
+</p>
+
 ### Overview
 
-This repository provides an AgentSkill and a small set of supporting tools for reverse-modeling curved geometry. It is intended for cases where a raw mesh, point sample, or CAD handoff needs to be turned into cleaner profiles, a STEP solid, or a documented CAD workflow.
+This repository provides an AgentSkill and supporting scripts for reverse-modeling curved geometry. It is intended for cases where an STL/OBJ/PLY mesh, point sample, or CAD handoff needs to be turned into cleaner profiles, a STEP solid, or a documented CAD workflow.
 
-The project is not a one-click mesh-to-solid converter. It focuses on the steps that usually decide whether a reconstruction is usable: checking the input, separating the real target body from surrounding details, fitting ordered sections, exporting through the right CAD route, and recording what was verified.
+It is not a one-click mesh-to-solid converter. The workflow focuses on the steps that usually determine whether a reconstruction is usable: input inspection, target-body selection, section/profile fitting, CAD export, and validation.
 
-Typical outputs include:
-
-- cleaned or inspected mesh data;
-- fitted profile JSON for section-based reconstruction;
-- STEP and preview STL files from the CadQuery/OCC route;
-- optional SolidWorks import and verification results;
-- notes that explain what was included, what was ignored, and what quality level was reached.
+Typical outputs include cleaned or inspected mesh data, profile JSON, STEP and preview STL files, optional SolidWorks verification results, and short notes explaining what was included, what was ignored, and what quality level was reached.
 
 ### Skill File
 
@@ -44,19 +42,9 @@ The main workflow file is:
 SKILL.md
 ```
 
-Use it when a coding/CAD assistant needs a repeatable procedure for curved-surface reconstruction. It covers:
-
-- when the workflow should be used;
-- input and output expectations;
-- authorization checks for source geometry;
-- quality levels from mesh repair to verified native CAD;
-- main-body filtering rules;
-- section, spline, and end-cap rules;
-- validation requirements before delivery.
+It describes when to use the workflow, what input and output evidence to keep, how to handle authorization, and how to classify the result from Q0 mesh repair to Q4 verified native CAD.
 
 ### Gallery
-
-The images below show the kind of evidence this workflow keeps with a reconstruction: what was selected, what was rebuilt, and what was handed off.
 
 <table>
   <tr>
@@ -64,33 +52,26 @@ The images below show the kind of evidence this workflow keeps with a reconstruc
       <img src="examples/cases/h3-audi-headrest/input/poduszka_zaglowkowa_audi_candidate_contact_sheet.png" alt="H3 Audi component contact sheet" />
       <br />
       <strong>Component classification</strong><br />
-      A multi-part source should be treated as a scene first, so straps, seam loops, and thin decorative pieces do not distort the main cushion body.
+      Treat a multi-part source as a scene first, so straps, seam loops, and thin decorative pieces do not distort the main cushion body.
     </td>
     <td align="center">
       <img src="examples/cases/h3-audi-headrest/outputs/h3_audi_spline_fitted_extended_real_sections_pillow_single_solid_preview.png" alt="H3 Audi headrest final preview" />
       <br />
       <strong>Single-solid soft-body reconstruction</strong><br />
-      The retained cushion body is rebuilt from spline sections after accessory geometry is excluded.
+      Rebuild the retained cushion body from spline sections after accessory geometry is excluded.
     </td>
   </tr>
 </table>
 
-<p align="center">
-  <img src="docs/assets/readme-reconstruction-preview.svg" alt="Updated reconstruction preview" />
-  <br />
-  <strong>CAD reconstruction preview</strong><br />
-  A clearer preview of the reconstructed surface result used as the main repository introduction image.
-</p>
-
 ### What This Repository Does
 
 - inspects mesh or point inputs before reconstruction;
-- helps separate the target body from straps, seams, labels, brackets, thin sheets, and scan fragments;
+- separates the target body from straps, seams, labels, brackets, thin sheets, and scan fragments;
 - generates ordered profiles for section-based reconstruction;
 - builds STEP and preview STL outputs through CAD adapters;
 - supports optional SolidWorks import and body/face verification;
 - keeps validation results next to the output instead of relying only on screenshots;
-- avoids describing a mesh repair or STEP import as a native editable CAD model unless it was actually rebuilt that way.
+- avoids calling a mesh repair or STEP import a native editable CAD model unless it was actually rebuilt that way.
 
 ### Workflow
 
@@ -200,13 +181,7 @@ This case is a simpler single-solid route that demonstrates the CadQuery to Soli
 
 ### Validation
 
-Validation is part of the output. For a reconstruction to be useful, the repository expects checks such as:
-
-- bounding box, counts, open edges, manifold state, and volume before fitting;
-- side-by-side source/output previews in consistent views;
-- included and excluded component lists for multi-part inputs;
-- body count or validity checks in the target CAD route;
-- a clear statement of the achieved quality level.
+Validation is part of the output. For a reconstruction to be useful, keep checks such as bbox, counts, open edges, manifold state, volume, side-by-side previews, included/excluded component lists, target-CAD body counts, and the achieved quality level.
 
 ### Safety And Scope
 
@@ -216,13 +191,7 @@ The SolidWorks adapter is optional and Windows-only. Proprietary interop DLLs ar
 
 ### Contributing
 
-When adding a new case, keep the case traceable:
-
-1. source asset or reference sample;
-2. reconstruction script or command sequence;
-3. preview image;
-4. validation report;
-5. short note explaining what was learned.
+When adding a new case, keep the case traceable: source asset, reconstruction command sequence, preview image, validation report, and a short note explaining what was learned.
 
 ### License
 
@@ -248,19 +217,17 @@ Released under the MIT License. See [LICENSE](LICENSE).
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License" />
 </p>
 
+<p align="center">
+  <img src="docs/assets/readme-reconstruction-preview.jpg" alt="重建后的 CAD 曲面预览" />
+</p>
+
 ### 项目概览
 
 这个仓库提供一个 AgentSkill 和一组配套脚本，用于曲面几何的逆向建模。它适合处理 STL、OBJ、PLY、点样本或 CAD 交接数据，并把它们整理成更干净的轮廓数据、STEP 实体或带记录的 CAD 工作流。
 
-它不是一键式 mesh-to-solid 转换器。项目更关注那些真正影响重建结果的环节：先检查输入，再从复杂场景里筛出目标主体，随后拟合有序截面，选择合适的 CAD 路线导出，并记录已经验证过的内容。
+它不是一键式 mesh-to-solid 转换器。项目更关注真正影响重建结果的环节：先检查输入，再从复杂场景里筛出目标主体，随后拟合有序截面，选择合适的 CAD 路线导出，并记录已经验证过的内容。
 
-常见输出包括：
-
-- 清理或检查后的网格数据；
-- 用于截面重建的 profile JSON；
-- 通过 CadQuery/OCC 路线生成的 STEP 和预览 STL；
-- 可选的 SolidWorks 导入与验证结果；
-- 说明哪些几何被保留、哪些被忽略，以及最终达到的质量等级。
+常见输出包括清理或检查后的网格数据、profile JSON、STEP 和预览 STL、可选的 SolidWorks 验证结果，以及说明保留/忽略内容和质量等级的记录。
 
 ### Skill 文件
 
@@ -270,19 +237,9 @@ Released under the MIT License. See [LICENSE](LICENSE).
 SKILL.md
 ```
 
-当需要让编程或 CAD 助手按固定流程处理曲面重建任务时，可以参考这个文件。它包括：
-
-- 适用场景；
-- 输入和输出要求；
-- 源几何授权检查；
-- 从网格修复到原生 CAD 验证的质量等级；
-- 主体筛选规则；
-- 截面、样条和端盖规则；
-- 交付前需要完成的验证。
+当需要让编程或 CAD 助手按固定流程处理曲面重建任务时，可以参考这个文件。它包括适用场景、输入输出要求、授权检查、质量等级、主体筛选、截面/样条/端盖规则，以及交付前验证要求。
 
 ### 图示展示
-
-下面这些图展示了重建过程中需要保留的关键信息：选了什么、重建了什么、最后交付了什么。
 
 <table>
   <tr>
@@ -300,13 +257,6 @@ SKILL.md
     </td>
   </tr>
 </table>
-
-<p align="center">
-  <img src="docs/assets/readme-reconstruction-preview.svg" alt="更新后的重建预览图" />
-  <br />
-  <strong>CAD 重建预览</strong><br />
-  用更清晰的曲面重建结果作为仓库介绍中的主要展示图。
-</p>
 
 ### 这个仓库能做什么
 
@@ -426,13 +376,7 @@ SOLIDS 1
 
 ### 验证
 
-验证是输出的一部分。为了让重建结果可交付，通常需要保留：
-
-- 拟合前的 bbox、数量、开边、流形状态和体积检查；
-- 源模型与输出模型的一致视角对比；
-- 多部件输入的包含/排除部件清单；
-- 目标 CAD 路线中的实体数量或有效性检查；
-- 明确的质量等级说明。
+验证是输出的一部分。为了让重建结果可交付，通常需要保留 bbox、数量、开边、流形状态、体积、一致视角对比、包含/排除部件清单、目标 CAD 路线中的实体数量或有效性检查，以及明确的质量等级说明。
 
 ### 安全与范围
 
@@ -442,13 +386,7 @@ SolidWorks 适配器是可选的，并且只适用于 Windows。仓库不包含�
 
 ### 贡献指南
 
-新增案例时，建议保持案例链条完整：
-
-1. 源资产或参考样本；
-2. 重建脚本或命令序列；
-3. 预览图；
-4. 验证报告；
-5. 简短说明，记录本案例的经验。
+新增案例时，建议保留源资产或参考样本、重建脚本或命令序列、预览图、验证报告，以及简短案例说明。
 
 ### 许可证
 
