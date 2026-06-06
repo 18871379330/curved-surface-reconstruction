@@ -1,8 +1,8 @@
-# Curved Surface Reconstruction
+# Curved Surface Reconstruction AgentSkill
 
 <p align="center">
-  <strong>Tool-agnostic reverse modeling for curved products, soft goods, and closed solids.</strong><br />
-  Inspect mesh/point inputs, fit reconstruction profiles, export CAD-ready bodies, and keep validation evidence with the result.
+  <strong>AgentSkill for tool-agnostic reverse modeling of curved products, soft goods, and closed solids.</strong><br />
+  Guide an AI agent to inspect geometry, separate target bodies from detail parts, fit reconstruction profiles, export CAD-ready outputs, and report validation evidence.
 </p>
 
 <p align="center">
@@ -14,7 +14,9 @@
 
 ---
 
-This repository provides a practical workflow for rebuilding freeform geometry into one of four output levels:
+This repository packages an **AgentSkill** for curved-surface reconstruction. It is meant to be read and followed by an AI coding/CAD agent, not used as a blind mesh-to-solid converter. The skill defines when to inspect, when to segment, when to fit, which adapter route to use, and what validation evidence must be returned.
+
+It supports workflows that rebuild freeform geometry into one of these output levels:
 
 - cleaned mesh for preview or print checks;
 - fitted profile data for design iteration;
@@ -22,6 +24,26 @@ This repository provides a practical workflow for rebuilding freeform geometry i
 - a tool-native CAD deliverable with verification evidence.
 
 The core is intentionally **tool-agnostic**. It handles inspection, component reasoning, sampling, profile generation, and validation reporting. CAD-specific work is kept in adapters for CadQuery/OCC, FreeCAD, OpenCascade, and SolidWorks.
+
+## AgentSkill File
+
+The main instruction file is:
+
+```text
+SKILL.md
+```
+
+Use it as the agent-facing contract for:
+
+- activation criteria;
+- safety and authorization rules;
+- input/output expectations;
+- quality levels Q0-Q4;
+- main-body filtering rules;
+- section and spline rules;
+- end-cap/truncation rules;
+- stop conditions;
+- required validation evidence.
 
 ## Gallery
 
@@ -46,30 +68,31 @@ The core is intentionally **tool-agnostic**. It handles inspection, component re
   <strong>Compact STEP to SolidWorks deliverable</strong>
 </p>
 
-## What This Repo Does
+## What This AgentSkill Does
 
-- inspects geometry before reconstruction, instead of trusting a preview;
-- separates the target body from straps, seams, labels, brackets, thin sheets, and other accessories;
-- samples and fits ordered sections or fitted surfaces;
-- exports STEP and preview STL through CAD adapters;
+- tells an agent to inspect geometry before reconstruction, instead of trusting a preview;
+- tells an agent to separate the target body from straps, seams, labels, brackets, thin sheets, and other accessories;
+- provides scripts for ordered-section and fitted-surface generation;
+- provides adapters for STEP and preview STL export;
 - optionally imports and verifies STEP-derived parts in SolidWorks;
-- validates watertightness, manifold state, volume, body count, and visual fit;
-- keeps final delivery clean and explainable.
+- requires validation of watertightness, manifold state, volume, body count, and visual fit;
+- prevents the agent from overstating mesh-only or STEP-imported results as native editable CAD.
 
 ## Reconstruction Pipeline
 
 ```mermaid
 graph LR
-  A[STL / OBJ / PLY / point samples] --> B[Core inspection]
-  B --> C[Target-body classification]
-  C --> D[Profile / surface fitting]
-  D --> E{Adapter route}
-  E --> F[CadQuery / OCC]
-  E --> G[FreeCAD]
-  E --> H[SolidWorks import / verification]
-  F --> I[Validation report]
-  G --> I
-  H --> I
+  A[Authorized STL / OBJ / PLY / point samples / CAD adapter input] --> B[Agent reads SKILL.md]
+  B --> C[Core inspection]
+  C --> D[Target-body classification]
+  D --> E[Profile / surface fitting]
+  E --> F{Adapter route}
+  F --> G[CadQuery / OCC]
+  F --> H[FreeCAD]
+  F --> I[SolidWorks import / verification]
+  G --> J[Validation report]
+  H --> J
+  I --> J
 ```
 
 ## Quality Levels
@@ -142,7 +165,7 @@ SOLIDS 1
 
 ### H3 Audi Headrest Cushion
 
-This case is the strongest example of the repo's main-body filtering approach. It demonstrates how to ignore straps, seam loops, and thin decorative geometry while keeping the soft cushion mass intact.
+This case is the strongest example of the skill's main-body filtering rule. It demonstrates how to ignore straps, seam loops, and thin decorative geometry while keeping the soft cushion mass intact.
 
 - Case notes: [examples/cases/h3-audi-headrest/case.md](examples/cases/h3-audi-headrest/case.md)
 - Asset manifest: [examples/cases/h3-audi-headrest/asset-manifest.md](examples/cases/h3-audi-headrest/asset-manifest.md)
@@ -155,16 +178,16 @@ This case is a cleaner single-solid route that shows the CadQuery and SolidWorks
 
 ## Repository Layout
 
+- `SKILL.md` - the main AgentSkill instruction file.
 - `core/` - tool-independent inspection, sampling, and fitting logic.
 - `adapters/` - CadQuery, FreeCAD, OCCT, and SolidWorks back ends.
 - `docs/` - workflow, command templates, and environment matrix.
 - `examples/` - curated cases, preview outputs, and reconstruction notes.
 - `tests/` - smoke tests and validation helpers.
-- `SKILL.md` - the Copilot-facing instruction file for agent workflows.
 
 ## Validation First
 
-The project treats validation as part of the deliverable:
+The skill treats validation as part of the deliverable:
 
 - check bbox, counts, open edges, manifold state, and volume before fitting;
 - compare source and output in consistent views;
