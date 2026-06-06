@@ -1,0 +1,32 @@
+name: test-core
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  core-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install core dependencies
+        run: python -m pip install -r requirements-core.txt
+      - name: Compile core scripts
+        run: |
+          python -m py_compile core/verify_geometry.py
+          python -m py_compile core/surface_profiles_from_samples.py
+          python -m py_compile core/mesh_scene_inspector.py
+      - name: Import core modules
+        run: |
+          python - <<'PY'
+          import pathlib
+          import sys
+          sys.path.insert(0, str(pathlib.Path('core').resolve()))
+          import surface_profiles_from_samples
+          import verify_geometry
+          import mesh_scene_inspector
+          print('core imports ok')
+          PY

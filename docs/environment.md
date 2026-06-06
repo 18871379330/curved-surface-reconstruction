@@ -2,19 +2,25 @@
 
 ## Core Python
 
-Use for mesh/point inspection, sampling, fitting, and profile JSON generation.
+Use for mesh/point inspection, sampling, fitting, profile JSON generation, component contact sheets, and lightweight validation.
 
 Requirements:
 
 ```text
 numpy
+pillow
 ```
+
+`pillow` is required by `core/mesh_scene_inspector.py` and the H3 preview renderer for contact-sheet and preview-image generation.
 
 Optional:
 
 ```text
 scipy
+pytest
 ```
+
+`scipy` is useful for future fitting and interpolation routes. `pytest` is recommended for local smoke tests.
 
 ## CadQuery Adapter
 
@@ -51,6 +57,19 @@ Requirements vary by binding:
 
 Use only when a Windows machine has SolidWorks installed and the output must be SLDPRT or SolidWorks-verified.
 
+Current adapter scope:
+
+- import STEP into SolidWorks;
+- save the imported model as SLDPRT;
+- reopen or inspect the resulting part;
+- verify solid-body count, face count, and basic face-type statistics.
+
+Current adapter non-scope:
+
+- rebuilding editable SolidWorks feature trees;
+- creating native sketches, splines, lofts, cuts, named planes, or design-table parameters;
+- guaranteeing parametric editability after STEP import.
+
 Requirements:
 
 - SolidWorks installed and licensed;
@@ -65,4 +84,4 @@ Do not bundle proprietary SolidWorks interop DLLs in a public skill/repository. 
 1. Core Python.
 2. CadQuery/OCC for BREP/STEP.
 3. FreeCAD for open-source CAD workflows.
-4. SolidWorks only as an optional Windows export/verification adapter.
+4. SolidWorks only as an optional Windows import/export/verification adapter.
