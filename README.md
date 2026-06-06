@@ -76,10 +76,10 @@ The images below show the kind of evidence this workflow keeps with a reconstruc
 </table>
 
 <p align="center">
-  <img src="examples/cases/m1009/outputs/M1009_curved_face_block_complete_single_solid_preview.png" alt="M1009 single-solid preview" />
+  <img src="docs/assets/readme-reconstruction-preview.svg" alt="Updated reconstruction preview" />
   <br />
-  <strong>Compact STEP handoff</strong><br />
-  A simpler curved-face block case using profile generation, CadQuery/OCC solid construction, STEP export, and CAD handoff checks.
+  <strong>Updated CAD reconstruction preview</strong><br />
+  A clearer preview of the reconstructed surface result used as the main repository introduction image.
 </p>
 
 ### What This Repository Does
@@ -302,10 +302,10 @@ SKILL.md
 </table>
 
 <p align="center">
-  <img src="examples/cases/m1009/outputs/M1009_curved_face_block_complete_single_solid_preview.png" alt="M1009 单实体预览" />
+  <img src="docs/assets/readme-reconstruction-preview.svg" alt="更新后的重建预览图" />
   <br />
-  <strong>紧凑 STEP 交付</strong><br />
-  一个更简单的曲面块案例，展示 profile 生成、CadQuery/OCC 实体构建、STEP 导出和 CAD 交接检查。
+  <strong>更新后的 CAD 重建预览</strong><br />
+  用更清晰的曲面重建结果作为仓库介绍中的主要展示图。
 </p>
 
 ### 这个仓库能做什么
