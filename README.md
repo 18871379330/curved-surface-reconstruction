@@ -304,7 +304,7 @@ SKILL.md
 <p align="center">
   <img src="docs/assets/readme-reconstruction-preview.svg" alt="更新后的重建预览图" />
   <br />
-  <strong>更新后的 CAD 重建预览</strong><br />
+  <strong>CAD 重建预览</strong><br />
   用更清晰的曲面重建结果作为仓库介绍中的主要展示图。
 </p>
 
