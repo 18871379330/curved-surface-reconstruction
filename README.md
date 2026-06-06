@@ -1,4 +1,4 @@
-# Curved Surface Reconstruction
+# Curved Surface Reconstruction AgentSkill
 
 ## Language
 
@@ -11,8 +11,8 @@
 ## English
 
 <p align="center">
-  <strong>Mesh and point-sample based workflow for curved-surface reconstruction and CAD handoff.</strong><br />
-  Inspect source geometry, isolate the target body, fit profiles, export CAD-ready files, and keep validation records with the result.
+  <strong>An engineering-oriented AgentSkill for curved-surface reconstruction and CAD handoff.</strong><br />
+  Define a repeatable route from mesh or point-sample input to inspected profiles, CAD-ready geometry, and validation records.
 </p>
 
 <p align="center">
@@ -28,21 +28,21 @@
 
 ### Overview
 
-This repository collects a practical reconstruction workflow for curved products, soft parts, and closed solids. It is aimed at cases where mesh or point-sample data needs to be converted into cleaner section profiles, a STEP solid, or a documented CAD handoff.
+This repository packages an AgentSkill for reverse-modeling curved products, soft parts, and closed solids. It is designed for coding or CAD agents that need a clear engineering procedure when an STL/OBJ/PLY mesh, point sample, or CAD handoff must be converted into cleaner section profiles, a STEP solid, or a documented CAD deliverable.
 
-The project does not try to be a fully automatic mesh-to-solid converter. The emphasis is on the engineering steps that usually determine whether the final geometry is useful: checking the source, choosing the real target body, fitting stable sections, exporting through a CAD backend, and documenting the validation result.
+The skill does not describe a one-click mesh-to-solid converter. It defines the decision points that usually determine whether the final geometry is useful: source inspection, target-body selection, stable section fitting, CAD-backend export, and validation.
 
 Typical outputs include inspected mesh data, profile JSON, STEP and preview STL files, optional SolidWorks import checks, and short reconstruction notes.
 
-### Workflow Specification
+### Skill Specification
 
-The workflow is also packaged as an AgentSkill:
+The main skill file is:
 
 ```text
 SKILL.md
 ```
 
-`SKILL.md` records the operating rules for reconstruction tasks: supported inputs, quality levels, main-body selection, section fitting, end-cap handling, adapter selection, and validation requirements.
+`SKILL.md` is the execution specification for the workflow. It records supported inputs, output quality levels, main-body filtering rules, section and end-cap handling, adapter selection, and validation requirements. The goal is to make each reconstruction run traceable rather than relying on a visual preview alone.
 
 ### Gallery
 
@@ -63,7 +63,7 @@ SKILL.md
   </tr>
 </table>
 
-### What This Repository Provides
+### What This Skill Provides
 
 - mesh and point-sample inspection before fitting;
 - target-body filtering for scenes with straps, seams, labels, brackets, thin sheets, or scan fragments;
@@ -172,7 +172,7 @@ A compact single-solid case showing the CadQuery to SolidWorks handoff.
 
 ### Repository Layout
 
-- `SKILL.md` - reconstruction workflow and quality rules.
+- `SKILL.md` - AgentSkill specification, reconstruction workflow, and quality rules.
 - `core/` - tool-independent inspection, sampling, and fitting scripts.
 - `adapters/` - CadQuery, FreeCAD, OCCT, and SolidWorks routes.
 - `docs/` - workflow notes, command templates, and environment setup.
@@ -185,7 +185,7 @@ Validation is treated as part of the output. A useful reconstruction should keep
 
 ### Safety And Scope
 
-This repository is intended for user-owned or otherwise authorized geometry. If the source model is a commercial product or third-party design and the permission status is unclear, confirm the rights before reproducing it in detail.
+This skill is intended for user-owned or otherwise authorized geometry. If the source model is a commercial product or third-party design and the permission status is unclear, confirm the rights before reproducing it in detail.
 
 The SolidWorks adapter is optional and Windows-only. Proprietary interop DLLs are not included.
 
@@ -206,8 +206,8 @@ Released under the MIT License. See [LICENSE](LICENSE).
 ## 中文
 
 <p align="center">
-  <strong>基于网格和点样本的曲面重建与 CAD 交付流程。</strong><br />
-  检查源几何，筛选目标主体，拟合截面轮廓，导出 CAD 可交付文件，并保留验证记录。
+  <strong>面向曲面重建与 CAD 交付的工程化 AgentSkill。</strong><br />
+  从网格或点样本输入出发，形成可追溯的几何检查、轮廓拟合、CAD 输出和验证记录。
 </p>
 
 <p align="center">
@@ -223,21 +223,21 @@ Released under the MIT License. See [LICENSE](LICENSE).
 
 ### 项目概览
 
-这个仓库整理了一套面向曲面产品、软体件和封闭实体的逆向建模流程。它适合把 STL、OBJ、PLY、点样本或 CAD 交接数据整理成更干净的截面轮廓、STEP 实体或带记录的 CAD 交付结果。
+这个仓库封装了一个用于曲面产品、软体件和封闭实体逆向建模的 AgentSkill。它面向需要执行 CAD/几何处理任务的编程或建模代理，用于把 STL、OBJ、PLY、点样本或 CAD 交接数据整理成更干净的截面轮廓、STEP 实体或带记录的 CAD 交付结果。
 
-它不是一键式 mesh-to-solid 转换器。项目重点放在真正影响重建质量的工程步骤上：源数据检查、目标主体筛选、稳定截面拟合、CAD 后端导出和结果验证。
+它不是一键式 mesh-to-solid 转换器。该 skill 更关注真正影响重建质量的工程决策点：源数据检查、目标主体筛选、稳定截面拟合、CAD 后端导出和结果验证。
 
 常见输出包括检查后的网格数据、profile JSON、STEP、预览 STL、可选的 SolidWorks 导入检查，以及简短的重建记录。
 
-### 流程规范
+### Skill 规范
 
-主流程文件是：
+主 skill 文件是：
 
 ```text
 SKILL.md
 ```
 
-`SKILL.md` 记录了重建任务的操作规则，包括支持的输入、质量等级、主体筛选、截面拟合、端盖处理、适配器选择和验证要求。
+`SKILL.md` 是该流程的执行规范，记录了支持的输入、输出质量等级、主体筛选规则、截面与端盖处理、适配器选择和验证要求。目标是让每次重建过程都有依据和记录，而不是只根据外观截图判断结果。
 
 ### 图示展示
 
@@ -258,7 +258,7 @@ SKILL.md
   </tr>
 </table>
 
-### 这个仓库提供什么
+### 这个 Skill 提供什么
 
 - 重建前的网格和点样本检查；
 - 带有绑带、缝线、标签、支架、薄片或扫描碎片的场景主体筛选；
@@ -367,7 +367,7 @@ SOLIDS 1
 
 ### 仓库结构
 
-- `SKILL.md` - 重建流程和质量规则。
+- `SKILL.md` - AgentSkill 规范、重建流程和质量规则。
 - `core/` - 工具无关的检查、采样和拟合脚本。
 - `adapters/` - CadQuery、FreeCAD、OCCT 和 SolidWorks 路线。
 - `docs/` - 工作流说明、命令模板和环境配置。
@@ -380,7 +380,7 @@ SOLIDS 1
 
 ### 安全与范围
 
-本仓库用于用户自有或已授权的几何数据。如果源模型是商业产品或第三方设计，且授权不明确，应先确认权限，再进行详细复现。
+本 skill 用于用户自有或已授权的几何数据。如果源模型是商业产品或第三方设计，且授权不明确，应先确认权限，再进行详细复现。
 
 SolidWorks 适配器是可选的，并且只适用于 Windows。仓库不包含专有的 interop DLL。
 
