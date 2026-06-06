@@ -2,7 +2,7 @@
 
 <p align="center">
   <strong>Tool-agnostic reverse modeling for curved products, soft goods, and closed solids.</strong><br />
-  Turn STL, OBJ, PLY, STEP, and point samples into verified CAD-ready outputs.
+  Inspect mesh/point inputs, fit reconstruction profiles, export CAD-ready bodies, and keep validation evidence with the result.
 </p>
 
 <p align="center">
@@ -21,7 +21,7 @@ This repository provides a practical workflow for rebuilding freeform geometry i
 - a watertight single BREP solid;
 - a tool-native CAD deliverable with verification evidence.
 
-It is intentionally **tool-agnostic** at the core and uses adapters for CadQuery, FreeCAD, OpenCascade, and SolidWorks when needed. The focus is not just on pretty geometry, but on measurable, reproducible results.
+The core is intentionally **tool-agnostic**. It handles inspection, component reasoning, sampling, profile generation, and validation reporting. CAD-specific work is kept in adapters for CadQuery/OCC, FreeCAD, OpenCascade, and SolidWorks.
 
 ## Gallery
 
@@ -48,24 +48,25 @@ It is intentionally **tool-agnostic** at the core and uses adapters for CadQuery
 
 ## What This Repo Does
 
-- inspects geometry before reconstruction, instead of trusting a nice preview;
-- separates the target body from straps, seams, labels, brackets, and other accessories;
+- inspects geometry before reconstruction, instead of trusting a preview;
+- separates the target body from straps, seams, labels, brackets, thin sheets, and other accessories;
 - samples and fits ordered sections or fitted surfaces;
-- exports STEP, STL, and native CAD outputs through adapters;
+- exports STEP and preview STL through CAD adapters;
+- optionally imports and verifies STEP-derived parts in SolidWorks;
 - validates watertightness, manifold state, volume, body count, and visual fit;
-- keeps the final delivery clean and explainable.
+- keeps final delivery clean and explainable.
 
 ## Reconstruction Pipeline
 
 ```mermaid
 graph LR
-  A[STL / OBJ / PLY / STEP / point samples] --> B[Core inspection]
+  A[STL / OBJ / PLY / point samples] --> B[Core inspection]
   B --> C[Target-body classification]
   C --> D[Profile / surface fitting]
   D --> E{Adapter route}
   E --> F[CadQuery / OCC]
   E --> G[FreeCAD]
-  E --> H[SolidWorks]
+  E --> H[SolidWorks import / verification]
   F --> I[Validation report]
   G --> I
   H --> I
@@ -80,6 +81,14 @@ graph LR
 | Q2 | Single BREP solid | STEP handoff, one-body deliverables |
 | Q3 | Tool-native feature model | Editable CAD features in a target tool |
 | Q4 | Verified native deliverable | Native file plus independent verification evidence |
+
+## Current Scope And Limits
+
+- Core readers currently support binary STL, OBJ, ASCII PLY, XYZ, PTS, and CSV point samples.
+- STEP/BREP workflows are handled through CAD adapters, not through the core point-sampling scripts.
+- The SolidWorks adapter currently imports and verifies STEP-derived SLDPRT files; it does **not** yet rebuild an editable SolidWorks feature tree from sketches, splines, lofts, cuts, and named features.
+- `core/surface_profiles_from_samples.py` is a simple height-field-style route. It is useful for curved blocks and target faces, but not for every closed freeform object.
+- Complex soft bodies should use case-specific or multi-spline section workflows, as shown in the H3 headrest case.
 
 ## Quick Start
 
@@ -99,6 +108,15 @@ Inspect a reference mesh:
 
 ```powershell
 python core/verify_geometry.py examples/cases/m1009/input/M1009_curved_face_block_reference.STL --out examples/cases/m1009/_work/geometry_report.json
+```
+
+Inspect a multi-part scene before fitting:
+
+```powershell
+python core/mesh_scene_inspector.py path/to/mesh_or_directory `
+  --out-json path/to/_work/mesh_scene_report.json `
+  --out-tsv path/to/_work/mesh_scene_summary.tsv `
+  --contact-sheet path/to/_work/mesh_scene_contact_sheet.png
 ```
 
 Generate ordered profiles:
@@ -151,7 +169,8 @@ The project treats validation as part of the deliverable:
 - check bbox, counts, open edges, manifold state, and volume before fitting;
 - compare source and output in consistent views;
 - keep included and excluded component lists for multi-part scenes;
-- prove the final body count or validity in the target adapter before marking the task complete.
+- prove final body count or validity in the target adapter before marking the task complete;
+- label the achieved quality level instead of implying more editability than the output actually has.
 
 ## Safety And Scope
 
